@@ -1,0 +1,25 @@
+program Api;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses Horse, System.JSON;
+
+var
+  App : THorse;
+  Users: TJSONArray;
+
+begin
+  App := THorse.Create(9000);
+
+  Users := TJSONArray.Create;
+
+  THorse.Get('/users',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+      Res.Send<TJSONArray>(Users);
+    end);
+
+  App.Start;
+end.
